@@ -1,0 +1,16 @@
+---
+    - name: "Start service mariadb, if not started"
+      service:
+        name: mariadb
+        state: started
+    - name: "Create a new database"
+      mysql_db:
+        name: "{{db_name}}"
+        state: present
+    - name: "create mysql user"
+      mysql_user:
+        name: bob
+        password: 12345
+        priv: '*.*:ALL,GRANT'
+        host: "%"
+        state: present

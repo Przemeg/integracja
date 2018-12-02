@@ -1,0 +1,27 @@
+---
+    - name: "Download wordpress"
+      get_url:
+        url: https://wordpress.org/latest.zip
+        dest: /tmp/wordpress.zip
+    - name: Creates directory
+      file:
+        path: /var/www/wordpress
+        state: directory
+    - name: "Unarchive wordpress"
+      unarchive:
+        src: /tmp/wordpress.zip
+        dest: /var/www/wordpress
+        remote_src: yes
+    - name: "copy apache cfg"
+      template:
+        src: templates/blog.conf
+        dest: /etc/httpd/conf.d/blog.conf
+
+    - name: "Start service httpd, if not started"
+      service:
+        name: httpd
+        state: restarted
+    - name: "copy wp-cofnig.php"
+      copy:
+        src: templates/wp-config.php
+        dest: "/var/www/wordpress/wp-config.php"

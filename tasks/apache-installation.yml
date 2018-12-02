@@ -1,0 +1,14 @@
+---
+    - name: "Install apache server"
+      yum:
+            name: httpd
+            state: latest
+    - name: "install php"
+      yum:
+        name: "{{packages}}"
+        state: latest
+      vars:
+        packages:
+            - php
+            - php-mysql
+            - MySQL-python
